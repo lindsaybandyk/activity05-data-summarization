@@ -1,6 +1,6 @@
 ---
 title: "Activity 5"
-author: "Name"
+author: "Lindsay Bandyk"
 output: github_document
 ---
 
@@ -19,14 +19,14 @@ Earning potential and employment prospects are two (important) of these consider
 We read in the same data from Activity 4 below, but notice that this code is now surrounded in parentheses.
 
 ```{r load_data, message=FALSE}
-(college_recent_grads <- read_csv("data/recent-grads.csv"))
+(college_recent_grads <- read_csv ("data/recent-grads.csv"))
 ```
 
 Compare this code output to the `load_data` chunk in your knitted Activity 4 `.md` report.
 What does enclosing an assignment code (i.e., `object_name <- r_code`) in parentheses do?
 
 **Response**:
-
+i keep getting an error with out the parenthessis because it does not focus on the correct platform, it stops the messages tobe able to be seen. 
 
 ### Data Codebook
 
@@ -66,6 +66,7 @@ The questions we will answer in this activity are:
 
 ### Median Earnings Description
 
+ 
 ### Median ... Median Earnings 
 
 For the rest of this semester, I will no longer provide you with R code chunks.
@@ -79,6 +80,13 @@ There are a number of ways to create a code chunk:
 Below, create a code chunk and name it `median_earnings`.
 Make sure there is an empty line above and below the code chunk.
 
+```{r median earnings}
+data= college_recent_grads
+filter( earnings
+        
+      )
+
+```
 
 
 In your newly created R code chunk, verify that the median income for all majors was $36,000.
@@ -102,7 +110,7 @@ You should discuss the center, spread, and potential shape only using these valu
 
 **Response**:
 
-
+i think that based on the distribution of median earnings that 
 ### Median Earnings by Major Category
 
 Now we will see how the different major categories compare to the overall distribution of median earnings.
@@ -128,7 +136,7 @@ Knit your document with and without this last piped code.
 What changes about the output?
 When would this `knitr::kable` code be useful?
 
-**Response**:
+**Response**: 
 
 
 ![](README-img/noun_pause.png) **Planned Pause Point**: If you have any questions, contact your instructor. Otherwise feel free to continue on.
@@ -165,6 +173,11 @@ In this code chunk,
 Provide a discussion on how the `major_category` rankings compare.
 
 **Response**:
+```{r}
+data %>%
+  filter()  %>%
+  select ()
+ ```
 
 
 ![](README-img/noun_pause.png) **(Final) Planned Pause Point**: If you have any questions, contact your instructor. Otherwise feel free to continue on.
