@@ -26,7 +26,7 @@ Compare this code output to the `load_data` chunk in your knitted Activity 4 `.m
 What does enclosing an assignment code (i.e., `object_name <- r_code`) in parentheses do?
 
 **Response**:
-i keep getting an error with out the parenthessis because it does not focus on the correct platform, it stops the messages tobe able to be seen. 
+i keep getting an error with out the parenthessis because it does not focus on the correct platform, it stops the messages tobe able to be seen. but with the parenthesis ut makes the code execute and print at the same time!
 
 ### Data Codebook
 
@@ -75,16 +75,15 @@ There are a number of ways to create a code chunk:
 
 - Tired: Copy-and-paste a previous code chunk, delete the code, then add your new code
 - Wired: Click on the ![new chunk icon](README-img/new-chunk-icon.png) and select ![r chunk icon](README-img/r-chunk-icon.png) (notice all the different types of code chunks that you can use within an RMarkdown file!)
-- Inspired: Ctrl/Command + Alt/Option + I
+- Inspired: Ctrl/Command + Alt/Option + 
 
 Below, create a code chunk and name it `median_earnings`.
 Make sure there is an empty line above and below the code chunk.
 
 ```{r median earnings}
-data= college_recent_grads
-filter( earnings
-        
-      )
+median_all_majors <- college_recent_grads %>% 
+  summarize(median_income = median(median))
+median_all_majors
 
 ```
 
@@ -102,6 +101,11 @@ Using the `college_recent_grads` dataset and functions from `{dplyr}`, obtain th
 Be careful when you name your output summaries as we are dealing with things that could use the same name (i.e., "median").
 When I and obtaining numerical summaries for variables, I like to include the variable name in my summary name (e.g., `mean_med_earnings = mean(median)`).
 Create a code chunk and name it `summary_earnings`.
+```{r summary of earnings code chunk}
+summary_earnings <- college_recent_grads %>%
+  summarize(n = n(), mean_income = mean(median), standard_deviation_income = sd(median), minimum_income = min(median), median_income = median(median), maximum_income = max(median))
+summary_earnings
+```
 
 
 
@@ -110,13 +114,21 @@ You should discuss the center, spread, and potential shape only using these valu
 
 **Response**:
 
-i think that based on the distribution of median earnings that 
+i think that based on the distribution of median earnings that it should be bnetween $36,000 and $40,151.45 and it is skewed right. 
 ### Median Earnings by Major Category
 
 Now we will see how the different major categories compare to the overall distribution of median earnings.
 Using the `college_recent_grads` dataset and functions from `{dplyr}`, obtain similar summaries of the variable `median` earnings of full-time, year-round workers as your `summary_earnings` code chunk, *by* for each `major_category`.
 *Arrange* this summary table by the median earning.
 Create a code chunk and name it `major_earnings`.
+```{r major earnings data summarization}
+major_earnings <- college_recent_grads %>%
+  group_by(major_category) %>% 
+  summarize(n = n(), mean_income = mean(median), standard_deviation_income = sd(median), minimum_income = min(median), median_income = median(median), maximum_income = max(median)) %>% 
+  arrange(median_income)
+  #knitr::kable()
+major_earnings
+```
 
 
 
@@ -124,7 +136,7 @@ Provide a discussion on how each major compares to the overall distribution.
 You should discuss the center, spread, and potential shape only using these summary values - I do NOT want to see any data visualizations here.
 
 **Response**:
-
+ as for the income median it was almost all at or below $40,000 and it fluctuates but is still skewed to the right. 
 
 Before we continue, add the following to the end of your pipeline (you will need to pipe first) in your `major_earnings` code chunk:
 
@@ -135,6 +147,8 @@ knitr::kable()
 Knit your document with and without this last piped code.
 What changes about the output?
 When would this `knitr::kable` code be useful?
+
+it makes the code look better and more presentable.
 
 **Response**: 
 
@@ -147,13 +161,19 @@ Let us see how well your descriptions in the [Median Earnings by Major Category]
 Plot the distribution of the variable `median` earnings of full-time, year-round workers for each `major_category` using the *boxplot* and *jitter* geometries.
 Create a code chunk and name it `major_boxplot`.
 
+```{r major boxplot}
+college_recent_grads %>%
+  ggplot(mapping = aes(x = median, y = major_category))+
+  geom_boxplot(color = "blue")+
+  geom_jitter(alpha = .5)
+```
 
 
 Provide a discussion on how your descriptions in the Median Earnings by Major Category section compares.
 
 **Response**:
 
-
+for all of the majors the highest is around $46000 and the lowesr around $25,000. 
 ### Multiple Rankings
 
 #### Ranking by `major_category`
@@ -167,17 +187,21 @@ In this code chunk,
 2. Summarize the variable `total` as the *sum* across all majors (to get the total number of majors within a `major_category`) and the following variables by their *median* value: `sharewomen`, `unemployment_rate`, and `median` earnings. Provide a meaningful name to each summarized value.
 3. Assign/create a *rank* for each summarized value (rank for `total`, rank for `sharewomen`, etc.) and provide a meaningful name to each ranked column value.
 4. Arrange the results so that `major_category` appear in alphabetical order ("A" at the top).
+```{r ranking by category and aplhabetically}
+college_recent_grads %>% 
+  group_by(major_category) %>% 
+  summarize(total = n_distinct(major), median_sharewomen = median(sharewomen), median_unemployment_rate = median(unemployment_rate), median_earnings = median(median)) %>% 
+  mutate(rank_total = min_rank(desc(total)), rank_median_sharewomen = min_rank(desc(median_sharewomen)), rank_median_unemployment_rate = min_rank(desc(median_unemployment_rate)), rank_median_earnings = min_rank(desc(median_earnings))) %>% 
+  arrange(major_category)
+```
 
 
 
 Provide a discussion on how the `major_category` rankings compare.
 
 **Response**:
-```{r}
-data %>%
-  filter()  %>%
-  select ()
- ```
+most of the female majors include psychology, Health, and interdisciplinary and the least include engineering and Computer/Math
+
 
 
 ![](README-img/noun_pause.png) **(Final) Planned Pause Point**: If you have any questions, contact your instructor. Otherwise feel free to continue on.
